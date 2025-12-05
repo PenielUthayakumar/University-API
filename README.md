@@ -20,10 +20,11 @@ A full-stack application designed to manage university course records. This proj
 ## 📂 Project Structure
 
 ```text
-├── api.py           # Flask backend server containing API routes and DB model
-├── client.py        # Streamlit frontend application for user interaction
+├── api.py               # Flask backend server containing API routes and DB model
+├── client.py            # Streamlit frontend application for user interaction
+├── requirements.txt     # Python dependencies
 ├── University_API.ipynb # Original development notebook (reference)
-└── README.md        # Project documentation
+└── README.md            # Project documentation
 ```
 ⚙️ Setup & Installation
 -----------------------
@@ -35,7 +36,21 @@ A full-stack application designed to manage university course records. This proj
 Run the following command to install the required libraries:
 Bash
 ```
-pip install flask flask-sqlalchemy mysql-connector-python pymysql requests streamlit pandas
+pip install -r requirements.txt
+```
+Modern Linux distro like Debian 12/Ubuntu 24.04 now block you from running pip install globally to prevent breaking core system tools that rely on Python.
+To fix this, you must create a Virtual Environment:
+
+```bash
+# 1. Create a virtual environment named 'venv'
+python3 -m venv venv
+
+# 2. Activate the environment
+source venv/bin/activate
+# (You will see '(venv)' appear at the start of your terminal line)
+
+# 3. Now you can install your requirements safely
+pip install -r requirements.txt
 ```
 
 ### 3\. Database Configuration
@@ -44,11 +59,13 @@ pip install flask flask-sqlalchemy mysql-connector-python pymysql requests strea
     CREATE DATABASE university_db;
     ```
 
-2.  The application is configured to connect to `localhost` with the user `root` and no password.
-    -   *Note:* If your MySQL setup has a password, update the `SQLALCHEMY_DATABASE_URI` in `api.py`:
-    ```python
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:YOUR_PASSWORD@localhost/university_db'
+2.  Security Setup: This project uses a .env file to manage database passwords securely so they are not exposed in the code.
+    - Create a file named .env in the root folder.
+    - Add your MySQL password inside it:
     ```
+    DB_PASSWORD=your_actual_sql_password
+    ```
+    - Note: If your local MySQL (e.g., XAMPP/WAMP) has no password, you can skip this step. The app defaults to an empty password if no .env file is found.
 
 🏃‍♂️ How to Run
 ----------------
